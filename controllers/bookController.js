@@ -5,18 +5,19 @@ var Genre = require('../models/genre');
 var async = require('async');
 
 exports.index = function(req, res, next) {
-    Book.find(function (err, docs) {
-        var list = [];
-        var size = 3;
-        for (var i = 0; i < docs.length; i+= size){
-            list.push(docs.slice(i, i + size));
-        }
-        res.render('index', { title: 'Online Library' , book_list: list});
+    async.parallel({
+        list_genres: function (callback) {
+            Genre.find()
+                .exec(callback);
+        },
+        book_list: function (callback) {
+            Book.find()
+                .exec(callback);
+        },
+    }, function (err, results) {
+        // Successful, so render.
+        res.render('index', { title: 'Online Library',list_genres: results.list_genres, book_list: results.book_list } );
     });
-    // var genres = new Genre(req.session.genres ? req.session.genres : {});
-    // Genre.find(function () {
-    //
-    // })
 };
 
 // Display list of all books.
@@ -61,12 +62,28 @@ exports.book_detail = function(req, res, next) {
     //         // Successful, so render.
     //         res.render('book_detail', { title: 'Book Detail', book:  book});
     //     })
-    var id = req.params.id;
-    Book.findOne({_id: id}, function (err, result) {
-        Author.findOne({_id: result.author}, function (err, results2) {
-            res.render('book_detail', {title: 'Book Detail', book: result, book_author: results2});
+
+    async.parallel({
+        list_genres: function (callback) {
+            Genre.find()
+                .exec(callback);
+        },
+
+        // book: function (callback) {
+        //     Book.findById(req.params.id)
+        //         .exec(callback);
+        // },
+
+    }, function (err, results) {
+        // Successful, so render.
+        Book.findOne({_id: req.params.id}, function (err, result) {
+            Author.findOne({_id: result.author}, function (err, results2) {
+                res.render('book_detail', {title: 'Book Detail',list_genres: results.list_genres, book: result, author: results2});
+            });
         });
     });
+
+
 };
 
 // Display book create form on GET.
