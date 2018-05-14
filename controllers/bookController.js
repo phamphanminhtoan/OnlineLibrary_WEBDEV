@@ -78,7 +78,9 @@ exports.book_detail = function(req, res, next) {
         // Successful, so render.
         Book.findOne({_id: req.params.id}, function (err, result) {
             Author.findOne({_id: result.author}, function (err, results2) {
-                res.render('book_detail', {title: 'Book Detail',list_genres: results.list_genres, book: result, author: results2});
+                Genre.findOne({_id: result.genre}, function (err, results3) {
+                    res.render('book_detail', {title: 'Book Detail',list_genres: results.list_genres, book: result, author: results2, genre: results3});
+                })
             });
         });
     });

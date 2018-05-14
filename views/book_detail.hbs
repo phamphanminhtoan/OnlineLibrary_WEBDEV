@@ -19,6 +19,17 @@
         <div class="card-body">
             <p>{{author.name}}</p>
             <small class="text-muted">Posted by Anonymous on 3/1/17</small>
+        </div>
+    </div>
+    <div class="card card-outline-secondary my-4">
+        <div class="card-header">
+            Genre
+        </div>
+        <div class="card-body">
+            {{#each genre}}
+            <p>{{this.name}}</p>
+                {{/each}}
+            <small class="text-muted">Posted by Anonymous on 3/1/17</small>
             <hr>
             <a href="/" class="btn btn-success">BACK</a>
         </div>
