@@ -100,12 +100,25 @@ exports.book_create_post = function(req, res) {
 
 // Display book delete form on GET.
 exports.book_delete_get = function(req, res) {
-    res.send('NOT IMPLEMENTED: Book delete GET');
+    //res.send('NOT IMPLEMENTED: Book delete GET');
+    // Assume valid BookInstance id in field.
+    Book.findByIdAndRemove(req.params.id, function deleteBook(err) {
+        if (err) { return next(err); }
+        // Success, so redirect to list of BookInstance items.
+        res.redirect('/catalog');
+    });
 };
 
 // Handle book delete on POST.
 exports.book_delete_post = function(req, res) {
-    res.send('NOT IMPLEMENTED: Book delete POST');
+    //res.send('NOT IMPLEMENTED: Book delete POST');
+
+    // Assume valid BookInstance id in field.
+    Book.findByIdAndRemove(req.body.id, function deleteBook(err) {
+        if (err) { return next(err); }
+        // Success, so redirect to list of BookInstance items.
+        res.redirect('/catalog');
+    });
 };
 
 // Display book update form on GET.

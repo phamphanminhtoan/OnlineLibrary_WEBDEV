@@ -15,7 +15,7 @@ var app = express();
 var mongoose = require('mongoose');
 
 // var mongoDB = 'mongodb://phamphanminhtoan:ppmt7897@ds117590.mlab.com:17590/onlinelibrary';
-var mongoDB = 'mongodb://127.0.0.1:27017/admin';
+//var mongoDB = 'mongodb://127.0.0.1:27017/admin';
 var mongoDB = 'mongodb://phamphanminhtoan:ppmt7897@ds117590.mlab.com:17590/onlinelibrary';
 
 mongoose.connect(mongoDB);
