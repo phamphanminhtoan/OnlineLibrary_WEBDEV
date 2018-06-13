@@ -2,6 +2,9 @@ var Book = require('../models/book');
 var Author = require('../models/author');
 var Genre = require('../models/genre');
 
+
+const { body,validationResult } = require('express-validator/check');
+
 var async = require('async');
 
 exports.index = function(req, res, next) {
@@ -10,13 +13,18 @@ exports.index = function(req, res, next) {
             Genre.find()
                 .exec(callback);
         },
+        list_authors: function(callback){
+            Author.find()
+                .exec(callback);
+        },
         book_list: function (callback) {
             Book.find()
                 .exec(callback);
         },
     }, function (err, results) {
         // Successful, so render.
-        res.render('index', { title: 'Online Library',list_genres: results.list_genres, book_list: results.book_list } );
+        res.render('index', { title: 'Online Library',list_genres: results.list_genres, book_list: results.book_list,
+                                                        list_authors: results.list_authors} );
     });
 };
 
@@ -68,7 +76,10 @@ exports.book_detail = function(req, res, next) {
             Genre.find()
                 .exec(callback);
         },
-
+        list_authors: function(callback){
+            Author.find()
+                .exec(callback);
+        },
         // book: function (callback) {
         //     Book.findById(req.params.id)
         //         .exec(callback);
@@ -79,7 +90,9 @@ exports.book_detail = function(req, res, next) {
         Book.findOne({_id: req.params.id}, function (err, result) {
             Author.findOne({_id: result.author}, function (err, results2) {
                 Genre.findOne({_id: result.genre}, function (err, results3) {
-                    res.render('book_detail', {title: 'Book Detail',list_genres: results.list_genres, book: result, author: results2, genre: results3});
+                    res.render('book_detail', {title: 'Book Detail',
+                        list_genres: results.list_genres, book: result, author: results2, genre: results3,
+                        list_authors: results.list_authors});
                 })
             });
         });
@@ -90,12 +103,44 @@ exports.book_detail = function(req, res, next) {
 
 // Display book create form on GET.
 exports.book_create_get = function(req, res) {
-    res.send('NOT IMPLEMENTED: Book create GET');
+    // Get all authors and genres, which we can use for adding to our book.
+    async.parallel({
+        authors: function(callback) {
+            Author.find(callback);
+        },
+        genres: function(callback) {
+            Genre.find(callback);
+        },
+    }, function(err, results) {
+        if (err) { return next(err); }
+        res.render('create_book', { title: 'Create Book',authors:results.authors, genres:results.genres });
+    });
 };
 
 // Handle book create on POST.
-exports.book_create_post = function(req, res) {
-    res.send('NOT IMPLEMENTED: Book create POST');
+exports.book_create_post = function( req, res){
+
+
+    req.checkBody('title', 'Title is required').notEmpty();
+    req.checkBody('author', 'Author must not be empty.').notEmpty();
+    req.checkBody('summary', 'Summary must not be empty.').isEmail();
+    req.checkBody('genre', 'Genre must not be empty').notEmpty();
+
+    var newBook = new Book({
+        title: req.body.title,
+        author: req.body.author,
+        summary: req.body.summary,
+        isbn: 'blabla',
+        image: ['http://sv1.upsieutoc.com/2018/05/09/wise_mans_fear_parts-1-and-2---simonetti.jpg',
+            'http://sv1.upsieutoc.com/2018/05/09/wise_mans_fear_parts-1-and-2---simonettif9e85f18801cef00.jpg',
+            'http://sv1.upsieutoc.com/2018/05/09/20140404-164514.jpg'],
+        genre: req.body.genre,
+    });
+    Book.createBook(newBook, function (err, book) {
+        if (err) throw err;
+        console.log(book);
+    });
+    res.redirect(newBook.url);
 };
 
 // Display book delete form on GET.
@@ -117,7 +162,7 @@ exports.book_delete_post = function(req, res) {
     Book.findByIdAndRemove(req.body.id, function deleteBook(err) {
         if (err) { return next(err); }
         // Success, so redirect to list of BookInstance items.
-        res.redirect('/catalog');
+        res.redirect(book.url);
     });
 };
 

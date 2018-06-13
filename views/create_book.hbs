@@ -1,0 +1,70 @@
+
+    <div class="col-lg-9">
+    <form action="" method="post">
+        <div class="card card-outline-secondary my-4">
+            <div class="card-header">
+                Title
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <input id="title" type="text" class="form-control"
+                           placeholder="Title of Book" name='title' required='true'>
+                </div>
+            </div>
+        </div>
+        <!-- /.card -->
+
+        <div class="card card-outline-secondary my-4">
+            <div class="card-header">
+                Author
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <select id="author" type="select" class="form-control" name="author" required='true'
+                            placeholder="Author of Book">
+                        {{#each authors}}
+                            {{#if this.name}}
+                                <option value={{this._id}}>
+                                    {{this.name}}
+                                </option>
+                            {{/if}}
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="card card-outline-secondary my-4">
+            <div class="card-header">
+                Summary
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <textarea class="form-control" id="summary"  name='summary' value={{book.summary}} required='true'></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="card card-outline-secondary my-4">
+            <div class="card-header">
+                Genre
+            </div>
+            <div class="card-body">
+                <select type="select" class="form-control" id="exampleInputGenre" name="genre" required="true"
+                        placeholder="Genre of Book">
+                    {{#each genres}}
+                        {{#if this.name}}
+                        <option value={{this._id}}>
+                            {{this.name}}
+                        </option>
+                        {{/if}}
+                    {{/each}}
+                </select>
+            </div>
+        </div>
+        <hr>
+        <a href="/"> <button type="submit" class="btn btn-success">Save</button></a>
+        <hr>
+        <!-- /.card -->
+    </form>
+    </div>
+
+

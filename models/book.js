@@ -19,6 +19,9 @@ BookSchema
     .get(function () {
         return '/catalog/book/' + this._id;
     });
+var Book = module.exports = mongoose.model('Book', BookSchema);
 
-//Export model
-module.exports = mongoose.model('Book', BookSchema);
+module.exports.createBook = function(newBook, callback){
+    newBook.save(callback);
+}
+
