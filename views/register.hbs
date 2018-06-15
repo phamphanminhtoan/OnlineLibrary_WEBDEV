@@ -1,35 +1,51 @@
-<h2 class="page-header">Register</h2>
-{{#if user}}
-    <div class="alert alert-danger">Username has taken already try new</div>
-{{/if}}
-{{#if mail}}
-    <div class="alert alert-danger">Email has taken already try new</div>
-{{/if}}
-{{#if errors}}
-    {{#each errors}}
-        <div class="alert alert-danger">{{msg}}</div>
-    {{/each}}
-{{/if}}
-<form method="post" action="/users/register">
-    <div class="form-group">
-        <label>Name</label>
-        <input type="text" class="form-control" placeholder="Name" name="name">
+<div class="main-w3layouts wrapper">
+    <h1>SignUp Form</h1>
+    <div class="main-agileinfo">
+        <div class="agileits-top">
+            {{#if user}}
+                <div class="alert alert-danger">Username has taken already try new</div>
+            {{/if}}
+            {{#if mail}}
+                <div class="alert alert-danger">Email has taken already try new</div>
+            {{/if}}
+            {{#if errors}}
+                {{#each errors}}
+                    <div class="alert alert-danger">{{msg}}</div>
+                {{/each}}
+            {{/if}}
+            <form method="post" action="/users/register">
+                <input class="text w3lpass" type="text" name="name" placeholder="Name" required="">
+                <input class="text" type="text" name="username" placeholder="Username" required="">
+                <input class="text email" type="email" name="email" placeholder="Email" required="">
+                <input class="text" type="password" name="password" placeholder="Password" required="">
+                <input class="text w3lpass" type="password" name="password2" placeholder="Confirm Password" required="">
+                <div class="wthree-text">
+                    <label class="anim">
+                        <input type="checkbox" class="checkbox" required="">
+                        <span> I Agree To The Terms & Conditions</span>
+                    </label>
+                    <div class="clear"> </div>
+                </div>
+                <input type="submit" value="SIGNUP">
+            </form>
+            <p>Don't have an Account? <a href="/users/login"> Login Now!</a></p>
+        </div>
     </div>
-    <div class="form-group">
-        <label>Username</label>
-        <input type="text" class="form-control" placeholder="Username" name="username">
+    <!-- copyright -->
+    <div class="w3copyright-agile">
+        <p>© 2017 Bubble SignUp Form. All rights reserved | Design by <a href="http://w3layouts.com/" target="_blank">W3layouts</a></p>
     </div>
-    <div class="form-group">
-        <label>Email</label>
-        <input type="email" class="form-control" placeholder="Email" name="email">
-    </div>
-    <div class="form-group">
-        <label>Password</label>
-        <input type="password" class="form-control" placeholder="Password" name="password">
-    </div>
-    <div class="form-group">
-        <label>Confirm Password</label>
-        <input type="password" class="form-control" placeholder="Password" name="password2">
-    </div>
-    <button type="submit" class="btn btn-default">Submit</button>
-</form>
+    <!-- //copyright -->
+    <ul class="w3lsg-bubbles">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+</div>

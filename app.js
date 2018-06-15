@@ -34,8 +34,9 @@ var app = express();
 
 // app.engine('.hbs', expressHbs({defaultLayout: 'layout', extname:'.hbs'}));
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+
 app.engine('.hbs', expressHbs({defaultLayout: 'layout', extname:'.hbs',layoutsDir:__dirname + '/views/layouts'}));
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
 app.use(logger('dev'));

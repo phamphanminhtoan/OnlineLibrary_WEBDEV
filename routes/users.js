@@ -7,11 +7,11 @@ var User = require('../models/user');
 
 /* GET users listing. */
 router.get('/login', function(req, res, next) {
-  res.render('login');
+  res.render('signin', {layout: 'login_layout'});
 });
 
 router.get('/register', function(req, res, next) {
-    res.render('register');
+    res.render('register', {layout: 'register_layout'});
 });
 
 router.post('/register', function (req, res) {
