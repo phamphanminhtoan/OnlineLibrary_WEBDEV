@@ -1,0 +1,40 @@
+
+<div class="col-lg-9">
+        <div class="card card-outline-secondary my-4">
+            <div class="card-header">
+                Thông tin cá nhân
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            Tên: {{user.name}}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            Email: {{user.email}}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- /.card -->
+
+
+        <hr>
+        <div class="row">
+            <div class="col-md-6">
+                <a href="/users/info/{{user._id}}/edit_profile"> <button type="submit" class="btn btn-info">Sửa thông tin</button></a>
+            </div>
+            <div class="col-md-6">
+                <a href="/users/info/reset_password"> <button type="submit" class="btn btn-info">Đổi mật khẩu</button></a>
+            </div>
+        </div>
+
+        <hr>
+
+</div>
+
+

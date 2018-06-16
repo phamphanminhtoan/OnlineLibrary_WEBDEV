@@ -28,6 +28,7 @@
     </div>
 
     <h1>{{genre.name}}{{add1}} {{book_count}} {{add2}}</h1>
+    <button>{{user.name}}</button>
         <div class="row">
 
 
@@ -45,14 +46,14 @@
                         </div>
                         <div class="card-footer">
                             <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-                {{#if user}}
-                            <div class="btn-group">
+
+                            <div class="dropdown">
                                 <a href="#" class="btn btn-secondary btn-sm btn-lg dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <span class="glyphicon glyphicon-print"></span>
                                 </a>
 
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" href={{this.url}} data-toggle="modal" data-target=#{{this._id}}>Xóa</a>
+                                    <a class="dropdown-item" href="{{this.url}}" data-toggle="modal" data-target=#{{this._id}}>Xóa</a>
                                     <a class="dropdown-item" href="#">Sửa</a>
                                 </div>
                             </div>
@@ -79,7 +80,7 @@
                                     </div>
                                 </div>
                             </div>
-                        {{/if}}
+
                         </div>
                     </div>
                 </div>

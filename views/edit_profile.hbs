@@ -1,0 +1,32 @@
+<div class="col-lg-9">
+<form  action="/users/info/{{user._id}}" method="post">
+    <div class="card card-outline-secondary my-4">
+        <div class="card-header">
+            Edit Profile
+        </div>
+        <div class="card-body">Tên:
+            <div class="form-group" data-target=#{{user._id}}>
+                <input id={{user._id}} type="text" class="form-control"
+                       placeholder="" name="newname" required='true' value="{{user.name}}">
+            </div>
+        </div>
+        <div class="card-body">Email:
+            <div class="form-group" data-target=#{{user._id}}>
+                <input id={{user._id}} type="text" class="form-control"
+                       placeholder="" name="newemail" required='true' value="{{user.email}}">
+            </div>
+        </div>
+    </div>
+    <!-- /.card -->
+    <hr>
+    <div class="row">
+        <div class="col-md-3">
+            <a href="/users/info/{{user._id}}"> <button type="submit" class="btn btn-info">Save changes</button></a>
+        </div>
+        <div class="col-md-3">
+            <a href="/users/info/{{user._id}}"> <button class="btn btn-info">Hủy bỏ</button></a>
+        </div>
+    </div>
+    <hr>
+</form>
+</div>

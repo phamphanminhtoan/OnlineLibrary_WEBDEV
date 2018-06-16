@@ -3,6 +3,8 @@ var router = express.Router();
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
+var objectId = require('mongodb').ObjectID;
+
 var User = require('../models/user');
 
 /* GET users listing. */
@@ -67,34 +69,7 @@ router.post('/register', function (req, res) {
     }
 });
 
-passport.use(new LocalStrategy(
-    function (username, password, done) {
-        User.getUserByUsername(username, function (err, user) {
-            if (err) throw err;
-            if (!user) {
-                return done(null, false, { message: 'Unknown User' });
-            }
 
-            User.comparePassword(password, user.password, function (err, isMatch) {
-                if (err) throw err;
-                if (isMatch) {
-                    return done(null, user);
-                } else {
-                    return done(null, false, { message: 'Invalid password' });
-                }
-            });
-        });
-    }));
-
-passport.serializeUser(function (user, done) {
-    done(null, user.id);
-});
-
-passport.deserializeUser(function (id, done) {
-    User.getUserById(id, function (err, user) {
-        done(err, user);
-    });
-});
 
 router.post('/login',
     passport.authenticate('local', { successRedirect: '/', failureRedirect: '/users/login', failureFlash: true }),
@@ -109,6 +84,35 @@ router.get('/logout', function (req, res) {
     req.flash('success_msg', 'You are logged out');
 
     res.redirect('/users/login');
+});
+
+router.get('/info/:id', function (req, res) {
+    res.render('info',{title: 'Your Profile'});
+});
+
+router.get('/info/:id/edit_profile', function (req, res) {
+    res.render('edit_profile',{title: 'Your Profile'});
+});
+
+router.post('/info/:id', function (req, res) {
+    req.checkBody('newname', 'Name is required').notEmpty();
+
+    var user = new User({
+       name: req.body.newname,
+        email: req.body.newemail,
+        _id: req.params.id,
+    });
+    var id = req.params.id;
+    User.updateOne({"_id": objectId(id)}, {$set: user}, function (err, reuslt) {
+
+        console.log('Updated');
+    });
+
+    res.redirect('/users/info/'+req.params.id);
+});
+
+router.get('/info/reset_password', function (req, res) {
+    res.render('reset_password', {title: 'Reset Password'});
 });
 
 module.exports = router;

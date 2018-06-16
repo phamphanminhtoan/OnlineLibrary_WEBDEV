@@ -1,5 +1,5 @@
 <div class="col-lg-9">
-
+<form method="post" action="">
     <div class="card mt-4">
         <img class="card-img-top img-fluid" src="{{book.image.[0]}}" alt="">
         <div class="card-body">
@@ -27,8 +27,8 @@
         </div>
         <div class="card-body">
             {{#each genre}}
-            <p>{{this.name}}</p>
-                {{/each}}
+                <p>{{this.name}}</p>
+            {{/each}}
             <small class="text-muted">Posted by Anonymous on 3/1/17</small>
             <hr>
             <a href="#" data-toggle="modal" data-target=#{{book._id}} class="btn btn-success">Delete</a>
@@ -57,6 +57,8 @@
         </div>
     </div>
     <!-- /.card -->
+
+</form>
 
 </div>
 <!-- /.col-lg-9 -->

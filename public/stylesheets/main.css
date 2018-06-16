@@ -82,17 +82,17 @@ ul, li {
 
 /*---------------------------------------------*/
 input {
-	outline: none;
-	border: none;
+	outline: #4e555b;
+	border: #4e555b;
 }
 
 textarea {
-  outline: none;
-  border: none;
+  outline: #4e555b;
+  border: #4e555b;
 }
 
 textarea:focus, input:focus {
-  border-color: transparent !important;
+  border-color: #4e555b !important;
 }
 
 input:focus::-webkit-input-placeholder { color:transparent; }
@@ -117,8 +117,8 @@ textarea:-ms-input-placeholder { color: #999999; }
 
 /*---------------------------------------------*/
 button {
-	outline: none !important;
-	border: none;
+	outline: #4e555b !important;
+	border: #4e555b;
 	background: transparent;
 }
 
@@ -127,7 +127,7 @@ button:hover {
 }
 
 iframe {
-	border: none !important;
+	border: #4e555b !important;
 }
 
 

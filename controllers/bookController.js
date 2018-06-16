@@ -2,9 +2,6 @@ var Book = require('../models/book');
 var Author = require('../models/author');
 var Genre = require('../models/genre');
 
-
-const { body,validationResult } = require('express-validator/check');
-
 var async = require('async');
 
 exports.index = function(req, res, next) {
@@ -13,18 +10,13 @@ exports.index = function(req, res, next) {
             Genre.find()
                 .exec(callback);
         },
-        list_authors: function(callback){
-            Author.find()
-                .exec(callback);
-        },
         book_list: function (callback) {
             Book.find()
                 .exec(callback);
         },
     }, function (err, results) {
         // Successful, so render.
-        res.render('index', { title: 'Online Library',list_genres: results.list_genres, book_list: results.book_list,
-                                                        list_authors: results.list_authors} );
+        res.render('index', { title: 'Online Library',list_genres: results.list_genres, book_list: results.book_list } );
     });
 };
 
@@ -35,51 +27,13 @@ exports.book_list = function(req, res) {
 
 // Display detail page for a specific book.
 exports.book_detail = function(req, res, next) {
-    // var authorId;
-    // async.parallel({
-    //     book: function (callback) {
-    //         Book.findById(req.params.id)
-    //             .exec(callback);
-    //         authorId = book.author
-    //     },
-    //     book_author: function (callback) {
-    //         Book.findOne({'_id': req.params.id}, function (callback) {
-    //             Author.findOne({})
-    //         })
-    //     }
-    //
-    // }, function (err, results) {
-    //     if (err) { return next(err); } // Error in API usage.
-    //     if (results.book == null) { // No results.
-    //         var err = new Error('Book not found');
-    //         err.status = 404;
-    //         return next(err);
-    //     }
-    //     //Successful , so render
-    //     res.render('book_detail', { title: 'Book Detail', book:  results.book, book_author: results.book_author});
-    // });
-    // Book.findById(req.params.id)
-    //     .populate('book')
-    //     .exec(function (err, book) {
-    //         if (err) { return next(err); }
-    //         if (book==null) { // No results.
-    //             var err = new Error('Book copy not found');
-    //             err.status = 404;
-    //             return next(err);
-    //         }
-    //         // Successful, so render.
-    //         res.render('book_detail', { title: 'Book Detail', book:  book});
-    //     })
 
     async.parallel({
         list_genres: function (callback) {
             Genre.find()
                 .exec(callback);
         },
-        list_authors: function(callback){
-            Author.find()
-                .exec(callback);
-        },
+
         // book: function (callback) {
         //     Book.findById(req.params.id)
         //         .exec(callback);
@@ -90,9 +44,7 @@ exports.book_detail = function(req, res, next) {
         Book.findOne({_id: req.params.id}, function (err, result) {
             Author.findOne({_id: result.author}, function (err, results2) {
                 Genre.findOne({_id: result.genre}, function (err, results3) {
-                    res.render('book_detail', {title: 'Book Detail',
-                        list_genres: results.list_genres, book: result, author: results2, genre: results3,
-                        list_authors: results.list_authors});
+                    res.render('book_detail', {title: 'Book Detail',list_genres: results.list_genres, book: result, author: results2, genre: results3});
                 })
             });
         });
@@ -162,7 +114,7 @@ exports.book_delete_post = function(req, res) {
     Book.findByIdAndRemove(req.body.id, function deleteBook(err) {
         if (err) { return next(err); }
         // Success, so redirect to list of BookInstance items.
-        res.redirect(book.url);
+        res.redirect('/catalog');
     });
 };
 
@@ -175,3 +127,39 @@ exports.book_update_get = function(req, res) {
 exports.book_update_post = function(req, res) {
     res.send('NOT IMPLEMENTED: Book update POST');
 };
+
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+
+var User = require('../models/user');
+
+
+passport.use(new LocalStrategy(
+    function (username, password, done) {
+        User.getUserByUsername(username, function (err, user) {
+            if (err) throw err;
+            if (!user) {
+                return done(null, false, { message: 'Unknown User' });
+            }
+
+            User.comparePassword(password, user.password, function (err, isMatch) {
+                if (err) throw err;
+                if (isMatch) {
+                    return done(null, user);
+                } else {
+                    return done(null, false, { message: 'Invalid password' });
+                }
+            });
+        });
+    }));
+
+
+passport.serializeUser(function (user, done) {
+    done(null, user.id);
+});
+
+passport.deserializeUser(function (id, done) {
+    User.getUserById(id, function (err, user) {
+        done(err, user);
+    });
+});
