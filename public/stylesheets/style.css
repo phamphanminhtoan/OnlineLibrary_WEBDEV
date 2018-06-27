@@ -1,7 +1,15 @@
-body {
+body, html {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+	height: 100%;
+	margin: 0;
+	min-height: 100%;
+	width: 100%;
+	min-width: 100%;
 }
 
+#float_bottom{
+	position: relative;
+}
 a {
   color: #00B7FF;
 }
@@ -44,6 +52,7 @@ a {
 
 .btn-right {
   right: 0em;
+	padding-top: 5px;
 }
 
 .btn-left, .btn-right {
@@ -64,9 +73,19 @@ a {
   background-color: #cccccc;
 
 }
+#form_search{
+	padding: 5px;
+}
+#float_center{
+	float: right;
 
+	position: relative;
+	left: -50%; /* or right 50% */
+	text-align: left;
+}
 .dropdown {
   display: inline-block;
+	float: right;
 }
 
 .dropdown-content {
@@ -89,7 +108,6 @@ a {
 
 .dropdown a:hover {background-color: #f1f1f1}
 
-.show {display:block;}
 
 .dropdown-toggle::after{
    margin-left: 0em;
@@ -166,7 +184,7 @@ input[type="text"], input[type="email"], input[type="password"] {
     display: block;
     border: #0c5460;
     padding: 0.8em;
-    border: solid 1px rgba(255, 255, 255, 0.37);
+    border: solid 1px rgba(0, 0, 0, 0.37);
     -webkit-transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1);
     transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1);
     background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 96%, #fff 4%);
@@ -293,8 +311,8 @@ input.checkbox:checked:after {
 	transform: rotate(-45deg);
 	height: .5rem;
 	border-color: #1b1e21;
-	border-top-color: #4e555b;
-	border-right-color: #4e555b;
+	border-top-color: transparent;
+	border-right-color: transparent;
 }
 .anim input.checkbox:checked:after {
 	-webkit-transform: rotate(-45deg);
@@ -303,8 +321,8 @@ input.checkbox:checked:after {
 	-ms-transform: rotate(-45deg);
 	transform: rotate(-45deg);
 	height: .5rem;
-	border-color: #4e555b;
-	border-right-color: #4e555b;
+	border-color: transparent;
+	border-right-color: transparent;
 	animation: .4s rippling .4s ease;
 	animation-fill-mode: forwards;
 }

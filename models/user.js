@@ -15,7 +15,12 @@ var UserSchema = mongoose.Schema({
     },
     name: {
         type: String
-    }
+    },
+    authorize:{
+      type: Boolean
+    },
+    resetPasswordToken: String,
+    resetPasswordExpires: Date,
 });
 
 var User = module.exports = mongoose.model('User', UserSchema);
@@ -25,6 +30,15 @@ module.exports.createUser = function(newUser, callback){
         bcrypt.hash(newUser.password, salt, function(err, hash) {
             newUser.password = hash;
             newUser.save(callback);
+        });
+    });
+}
+
+module.exports.updatePassword = function(User, callback){
+    bcrypt.genSalt(10, function(err, salt) {
+        bcrypt.hash(User.password, salt, function(err, hash) {
+            User.password = hash;
+            User.save(callback);
         });
     });
 }

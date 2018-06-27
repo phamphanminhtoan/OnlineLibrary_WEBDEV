@@ -1,29 +1,28 @@
 var Book = require('../models/book');
 var Author = require('../models/author');
 var Genre = require('../models/genre');
+var Handlebars = require('handlebars');
+var objectId = require('mongodb').ObjectID;
 
 var async = require('async');
 
-exports.index = function(req, res, next) {
-    async.parallel({
-        list_genres: function (callback) {
-            Genre.find()
-                .exec(callback);
-        },
-        book_list: function (callback) {
-            Book.find()
-                .exec(callback);
-        },
-    }, function (err, results) {
-        // Successful, so render.
-        res.render('index', { title: 'Online Library',list_genres: results.list_genres, book_list: results.book_list } );
-    });
+function escapeRegex(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 };
 
-// Display list of all books.
-exports.book_list = function(req, res) {
-    res.send('NOT IMPLEMENTED: Book list');
-};
+Handlebars.registerHelper('ifCond', function(v1, v2, options) {
+    if(v1 === v2) {
+        return options.fn(this);
+    }
+    return options.inverse(this);
+});
+
+Handlebars.registerHelper('ifConddif', function(v1, v2, options) {
+    if(v1 !== v2) {
+        return options.fn(this);
+    }
+    return options.inverse(this);
+});
 
 // Display detail page for a specific book.
 exports.book_detail = function(req, res, next) {
@@ -33,12 +32,6 @@ exports.book_detail = function(req, res, next) {
             Genre.find()
                 .exec(callback);
         },
-
-        // book: function (callback) {
-        //     Book.findById(req.params.id)
-        //         .exec(callback);
-        // },
-
     }, function (err, results) {
         // Successful, so render.
         Book.findOne({_id: req.params.id}, function (err, result) {
@@ -52,6 +45,51 @@ exports.book_detail = function(req, res, next) {
 
 
 };
+
+exports.index = function(req, res, next) {
+    var noMatch = null;
+    if(req.query.search) {
+        const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+        // Get all campgrounds from DB
+        Book.find({title: regex}, function (err, allBook) {
+            if (err) {
+                console.log(err);
+            } else {
+                if (allBook.length < 1) {
+                    noMatch = "No campgrounds match that query, please try again.";
+                }
+                res.render("/", {book_list: allBook, noMatch: noMatch});
+            }
+        });
+    }else{
+        async.parallel({
+            list_genres: function (callback) {
+                Genre.find()
+                    .exec(callback);
+            },
+            authors: function(callback) {
+                Author.find().exec(callback);
+            },
+            book_list: function (callback) {
+                Book.find().populate('genre author')
+                    .exec(callback);
+            },
+        }, function (err, results) {
+            // Successful, so render.
+            res.render('index', { title: 'Online Library',list_genres: results.list_genres,
+                authors: results.authors, book_list: results.book_list } );
+        });
+    }
+};
+
+// Display list of all books.
+exports.book_list = function(req, res) {
+    res.send('NOT IMPLEMENTED: Book list');
+};
+exports.post_comment = function(req, res){
+    console.log('OK');
+    res.stop();
+}
 
 // Display book create form on GET.
 exports.book_create_get = function(req, res) {
@@ -75,7 +113,7 @@ exports.book_create_post = function( req, res){
 
     req.checkBody('title', 'Title is required').notEmpty();
     req.checkBody('author', 'Author must not be empty.').notEmpty();
-    req.checkBody('summary', 'Summary must not be empty.').isEmail();
+    req.checkBody('summary', 'Summary must not be empty.').notEmpty();
     req.checkBody('genre', 'Genre must not be empty').notEmpty();
 
     var newBook = new Book({
@@ -120,12 +158,42 @@ exports.book_delete_post = function(req, res) {
 
 // Display book update form on GET.
 exports.book_update_get = function(req, res) {
-    res.send('NOT IMPLEMENTED: Book update GET');
+    // Get all authors and genres, which we can use for adding to our book.
+    async.parallel({
+        authors: function(callback) {
+            Author.find(callback);
+        },
+        genres: function(callback) {
+            Genre.find(callback);
+        },
+        book: function (callback) {
+            Book.findOne({_id: req.params.id}).exec(callback);
+        }
+    }, function(err, results) {
+        if (err) { return next(err); }
+        res.render('edit_book', { title: 'Edit Book',book: results.book ,authors:results.authors, genres:results.genres });
+    });
 };
 
 // Handle book update on POST.
 exports.book_update_post = function(req, res) {
-    res.send('NOT IMPLEMENTED: Book update POST');
+    req.checkBody('title', 'Title is required').notEmpty();
+    req.checkBody('author', 'Author must not be empty.').notEmpty();
+    req.checkBody('summary', 'Summary must not be empty.').notEmpty();
+    req.checkBody('genre', 'Genre must not be empty').notEmpty();
+
+    var newBook = new Book({
+        title: req.body.title,
+        author: req.body.author,
+        summary: req.body.summary,
+        genre: req.body.genre,
+    });
+    var te = req.body.title;
+    var id = req.params.id;
+    Book.updateOne({"_id": objectId(id)}, {$set: newBook}, function (err, reuslt) {
+        console.log('Updated');
+    });
+    res.redirect(newBook.url);
 };
 
 var passport = require('passport');

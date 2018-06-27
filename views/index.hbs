@@ -28,63 +28,146 @@
     </div>
 
     <h1>{{genre.name}}{{add1}} {{book_count}} {{add2}}</h1>
-    <button>{{user.name}}</button>
         <div class="row">
 
+            {{#if user.authorize}}
+                {{#each book_list}}
+                    <div class="col-lg-4 col-md-6 mb-4">
 
-            {{#each book_list}}
-                <div class="col-lg-4 col-md-6 mb-4">
-
-                    <div class="card h-100">
-                        <a href={{this.url}}><img class="card-img-top" src={{this.image.[2]}} alt="20140404-164514.jpg" border="0"  alt=""></a>
-                        <div class="card-body">
-                            <h4 class="card-title">
-                                <a href={{this.url}}>{{this.title}}</a>
-                            </h4>
-                            <h5>$24.99</h5>
-                            <!--<p class="card-text">{{this.summary}}</p>-->
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-
-                            <div class="dropdown">
-                                <a href="#" class="btn btn-secondary btn-sm btn-lg dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span class="glyphicon glyphicon-print"></span>
-                                </a>
-
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="{{this.url}}" data-toggle="modal" data-target=#{{this._id}}>Xóa</a>
-                                    <a class="dropdown-item" href="#">Sửa</a>
-                                </div>
+                        <div class="card h-100">
+                            <a href={{this.url}}><img class="card-img-top" src={{this.image.[2]}} alt="20140404-164514.jpg" border="0"  alt=""></a>
+                            <div class="card-body">
+                                <h4 class="card-title">
+                                    <a href={{this.url}}>{{this.title}}</a>
+                                </h4>
+                                <h5>$24.99</h5>
+                                <!--<p class="card-text">{{this.summary}}</p>-->
                             </div>
+                            <div class="card-footer">
+                                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
 
-                            <!-- Modal -->
-                            <div class="modal fade" id={{this._id}} tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                           <h5 class="modal-title" id="exampleModalLongTitle">Delete</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            {{this.title}}
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <div class="dropdown">
+                                    <a href="#" class="btn btn-secondary btn-sm btn-lg dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span class="glyphicon glyphicon-print"></span>
+                                    </a>
+
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="{{this.url}}" data-toggle="modal" data-target=#{{this._id}}>Xóa</a>
+                                        <a class="btn dropdown-item" href="{{this.url}}/update">Sửa</a>
+                                    </div>
+                                </div>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id={{this._id}} tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLongTitle">Delete</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                {{this.title}}
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
                                                 <a href={{this.url}}/delete><button type="button" class="btn btn-primary">Save changes</button></a>
 
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                                <!--<div class="modal fade" id={{this._id}}1 tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">-->
+                                    <!--<div class="modal-dialog modal-dialog-centered" role="document">-->
+                                        <!--<div class="modal-content">-->
+                                            <!--<div class="modal-header">-->
+                                                <!--<h5 class="modal-title" id="exampleModalLongTitle">Edit</h5>-->
+                                                <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+                                                    <!--<span aria-hidden="true">&times;</span>-->
+                                                <!--</button>-->
+                                            <!--</div>-->
+                                            <!--<div class="card-body">Tên:-->
+                                                <!--<div class="form-group">-->
+                                                    <!--<input type="text" class="form-control" placeholder="" name="newtitle" required='true' value="{{this.title}}">-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                            <!--<div class="card card-outline-secondary my-4">-->
+                                                <!--<div class="card-header">-->
+                                                    <!--Author-->
+                                                <!--</div>-->
+                                                <!--<div class="card-body">-->
+                                                    <!--<div class="form-group">-->
+                                                        <!--<input id="author" type="select" class="form-control" name="newauthor" required='true'-->
+                                                                <!--placeholder="Author of Book" value="{{this.author._id}}">-->
+                                                            <!--&lt;!&ndash;{{#each authors as |au|}}&ndash;&gt;-->
+                                                                <!--&lt;!&ndash;{{#if au.name}}&ndash;&gt;-->
+                                                                    <!--&lt;!&ndash;<option value={{au._id}}>&ndash;&gt;-->
+                                                                        <!--&lt;!&ndash;{{book.author.name}}&ndash;&gt;-->
+                                                                    <!--&lt;!&ndash;</option>&ndash;&gt;-->
+                                                                <!--&lt;!&ndash;{{/if}}&ndash;&gt;-->
+                                                            <!--&lt;!&ndash;{{/each}}&ndash;&gt;-->
+                                                        <!--</input>-->
+                                                    <!--</div>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                            <!--<div class="card-body">Tóm tắt-->
+                                                <!--<div class="form-group">-->
+                                                    <!--<textarea class="form-control" id="summary"  name='newsummary' value={{this.summary}} required='true'>{{this.summary}}</textarea>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                            <!--<div class="card card-outline-secondary my-4">-->
+                                                <!--<div class="card-header">-->
+                                                    <!--Genre-->
+                                                <!--</div>-->
+                                                <!--<div class="card-body">-->
+                                                    <!--<div class="form-group">-->
+                                                        <!--<input id="genre" class="form-control" name="newgenre" required='true'-->
+                                                               <!--placeholder="Genre of Book" value="{{this.genre.[0].name}}">-->
+                                                            <!--&lt;!&ndash;{{#each authors as |au|}}&ndash;&gt;-->
+                                                            <!--&lt;!&ndash;{{#if au.name}}&ndash;&gt;-->
+                                                            <!--&lt;!&ndash;<option value={{au._id}}>&ndash;&gt;-->
+                                                            <!--&lt;!&ndash;{{book.author.name}}&ndash;&gt;-->
+                                                            <!--&lt;!&ndash;</option>&ndash;&gt;-->
+                                                                <!--&lt;!&ndash;{{/if}}&ndash;&gt;-->
+                                                            <!--&lt;!&ndash;{{/each}}&ndash;&gt;-->
+                                                        <!--</input>-->
+                                                    <!--</div>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                            <!--<div class="modal-footer">-->
+                                                <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+                                                <!--<a href={{this.url}}/update><button type="button" class="btn btn-primary">Save changes</button></a>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
                             </div>
-
                         </div>
                     </div>
-                </div>
-            {{/each}}
+                {{/each}}
+            {{else}}
+                {{#each book_list}}
+                    <div class="col-lg-4 col-md-6 mb-4">
+
+                        <div class="card h-100">
+                            <a href={{this.url}}><img class="card-img-top" src={{this.image.[2]}} alt="20140404-164514.jpg" border="0"  alt=""></a>
+                            <div class="card-body">
+                                <h4 class="card-title">
+                                    <a href={{this.url}}>{{this.title}}</a>
+                                </h4>
+                                <h5>$24.99</h5>
+                                <!--<p class="card-text">{{this.summary}}</p>-->
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+                            </div>
+                        </div>
+                    </div>
+                {{/each}}
+            {{/if}}
+
         </div>
     <!-- /.row -->
     <!-- Pagination -->

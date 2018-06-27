@@ -1,5 +1,4 @@
 <div class="col-lg-9">
-<form method="post" action="">
     <div class="card mt-4">
         <img class="card-img-top img-fluid" src="{{book.image.[0]}}" alt="">
         <div class="card-body">
@@ -31,34 +30,56 @@
             {{/each}}
             <small class="text-muted">Posted by Anonymous on 3/1/17</small>
             <hr>
-            <a href="#" data-toggle="modal" data-target=#{{book._id}} class="btn btn-success">Delete</a>
-            <!-- Modal -->
-            <div class="modal fade" id={{book._id}} tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLongTitle">Delete</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            {{book.title}}
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <!--<a href="#" data-toggle="modal" data-target=#{{book._id}} class="btn btn-success">Delete</a>-->
+            <!--&lt;!&ndash; Modal &ndash;&gt;-->
+            <!--<div class="modal fade" id={{book._id}} tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">-->
+                <!--<div class="modal-dialog modal-dialog-centered" role="document">-->
+                    <!--<div class="modal-content">-->
+                        <!--<div class="modal-header">-->
+                            <!--<h5 class="modal-title" id="exampleModalLongTitle">Delete</h5>-->
+                            <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+                                <!--<span aria-hidden="true">&times;</span>-->
+                            <!--</button>-->
+                        <!--</div>-->
+                        <!--<div class="modal-body">-->
+                            <!--{{book.title}}-->
+                        <!--</div>-->
+                        <!--<div class="modal-footer">-->
+                            <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
 
-                            <a href={{book._id}}/delete><button type="button" class="btn btn-primary">Save changes</button></a>
+                            <!--<a href={{book._id}}/delete><button type="button" class="btn btn-primary">Save changes</button></a>-->
 
-                        </div>
-                    </div>
-                </div>
-            </div>
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
         </div>
     </div>
-    <!-- /.card -->
+    <form>
+    <div class="card card-outline-secondary my-4">
+        <div class="card-header">
+            Comment
+        </div>
 
-</form>
+        <div class="card-body">
+
+            <div class="form-group">
+
+                    <textarea class="form-control" id="summary" type="text" name='{{user._id}}' value="Mickey" ></textarea>
+
+                    <button type="button" class="btn btn-primary pull-right">Post</button>
+
+            </div>
+
+
+            <div id="results"></div>
+
+        </div>
+
+    </div>
+    <!-- /.card -->
+    </form>
+
 
 </div>
 <!-- /.col-lg-9 -->

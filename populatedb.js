@@ -239,8 +239,8 @@ function createRents(cb) {
 async.series([
         createGenreAuthors,
         createBooks,
-        createCustomers,
-        createRents,
+        //createCustomers,
+        //createRents,
     ],
 // Optional callback
     function(err, results) {
