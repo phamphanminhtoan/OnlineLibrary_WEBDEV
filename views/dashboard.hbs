@@ -153,11 +153,55 @@
                             <td>{{this.name}}</td>
                             <td>{{this.email}}</td>
                             <td>
-                                {{#if this.authorize}}
-                                    Admin
+                            <form action="/users/admin/dashboard/{{this._id}}/update_authorize" method="post">
+
+                                <a href="/" data-toggle="modal" data-target=#{{this._id}}1 name="" value="OK">
+                                    {{#if this.authorize}}
+                                        Admin
                                     {{else}}
-                                    User
-                                {{/if}}
+                                        User
+                                    {{/if}}
+                                </a>
+                                <div class="modal fade" id={{this._id}}1 tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLongTitle">Change authorize</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <select id="author1" type="select" class="form-control" name="authorizeUser" required='true'
+                                                        placeholder="Author of Book" >
+                                                    {{#if this.authorize}}
+                                                        <option value= "true">
+                                                            Admin
+                                                        </option>
+                                                        <option value="false">
+                                                            User
+                                                        </option>
+                                                    {{else}}
+                                                        <option value="false">
+                                                            User
+                                                        </option>
+                                                        <option value="true">
+                                                            Admin
+                                                        </option>
+                                                    {{/if}}
+                                                </select>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                                                <button type="submit" class="btn btn-primary">Save changes</button>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
                             </td>
                             <td>2011/04/25</td>
                             <td>$320,800</td>

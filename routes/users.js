@@ -293,4 +293,40 @@ router.post('/forgot', function (req, res, next) {
     });
 });
 
+router.post('/admin/dashboard/:id/update_authorize', function (req, res, next){
+    // User.findOne({_id: req.params.id}, function (err, user) {
+    //     if (err) return next(err);
+    //     if(user.authorize && req.body.authorizeUser == false){
+    //         user.authorize = false;
+    //         var id = req.params.id;
+    //         User.updateOne({"_id": objectId(id)}, {$set: user}, function (err, reuslt) {
+    //             console.log('Updated');
+    //         });
+    //     }
+    //     if(user.authorize == false && req.body.authorize === 'Admin'){
+    //         user.authorize = true;
+    //         var id = req.params.id;
+    //         User.updateOne({"_id": objectId(id)}, {$set: user}, function (err, reuslt) {
+    //             console.log('Updated');
+    //         });
+    //     }
+    //     res.redirect('/users/admin/dashboard');
+    // });
+
+    var user = new User({
+        authorize: req.body.authorizeUser,
+        _id: req.params.id,
+    });
+    var te = req.body.authorizeUser;
+    var id = req.params.id;
+    User.updateOne({"_id": objectId(id)}, {$set: user}, function (err, reuslt) {
+        console.log('Updated');
+    });
+    res.redirect('/users/admin/dashboard');
+});
+
+router.post('/admin/dashboard/update_authorize', function (req, res, next) {
+
+});
+
 module.exports = router;

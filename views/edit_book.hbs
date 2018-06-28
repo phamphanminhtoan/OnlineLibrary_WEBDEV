@@ -8,7 +8,7 @@
             <div class="card-body">
                 <div class="form-group">
                     <input id="title" type="text" class="form-control"
-                           placeholder="Title of Book" name='title' required='true' value="{{book.title}}">
+                           placeholder="Title of Book" name="title" required='true' value="{{book.title}}">
                 </div>
             </div>
         </div>
@@ -23,11 +23,11 @@
                     <select id="author" type="select" class="form-control" name="author" required='true'
                             placeholder="Author of Book">
                         {{#each authors}}
-                            {{#if this.name}}
+
                                 <option value={{this._id}}>
                                     {{this.name}}
                                 </option>
-                            {{/if}}
+                            
                         {{/each}}
                     </select>
                 </div>
@@ -39,7 +39,7 @@
             </div>
             <div class="card-body">
                 <div class="form-group">
-                    <textarea class="form-control" id="summary"  name='summary' value={{book.summary}} required='true'>{{book.summary}}</textarea>
+                    <textarea class="form-control" id="summary"  name="summary" value={{book.summary}} required='true'>{{book.summary}}</textarea>
                 </div>
             </div>
         </div>

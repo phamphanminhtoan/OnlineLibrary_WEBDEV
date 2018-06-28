@@ -186,14 +186,19 @@ exports.book_update_post = function(req, res) {
         title: req.body.title,
         author: req.body.author,
         summary: req.body.summary,
+        isbn: 'blabla',
+        image: ['http://sv1.upsieutoc.com/2018/05/09/wise_mans_fear_parts-1-and-2---simonetti.jpg',
+            'http://sv1.upsieutoc.com/2018/05/09/wise_mans_fear_parts-1-and-2---simonettif9e85f18801cef00.jpg',
+            'http://sv1.upsieutoc.com/2018/05/09/20140404-164514.jpg'],
         genre: req.body.genre,
+        _id: req.params.id,
     });
     var te = req.body.title;
     var id = req.params.id;
     Book.updateOne({"_id": objectId(id)}, {$set: newBook}, function (err, reuslt) {
         console.log('Updated');
     });
-    res.redirect(newBook.url);
+    res.redirect('/');
 };
 
 var passport = require('passport');
